@@ -1,4 +1,5 @@
 import { auth, dbService } from "fBase";
+import { updateProfile } from "firebase/auth";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import React, { useEffect , useState} from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -19,17 +20,29 @@ const Profile = ({userObj}) => {
         getMyJweets()
     }, [])
 
-    const onSubmit = (event) =>{
+    const onChange = (event) => {
+        const {target : {value}} = event;
+        console.log(value);
+        setNewDisplayName(value);
+    }
+
+    const onSubmit = async (event) =>{
+        console.log("onSubmit")
         event.preventDefault();
         if(userObj.displayName !== newDisplayName){
-            
+            console.log('??')
+            console.log(userObj)
+           await updateProfile(userObj,{
+               displayName : newDisplayName
+           })
+
         }
     }
 
     return (
         <>
             <form onSubmit={onSubmit}>
-                <input type="text" placholder="Display name" value={userObj.displayName}/>
+                <input type="text" placholder="Display name" value={newDisplayName} onChange={onChange}/>
                 <input type="submit" value="Update Profile"/>
             </form>
             <button onClick={onLogOutClick}>Log Out</button>
