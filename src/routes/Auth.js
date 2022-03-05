@@ -1,8 +1,7 @@
-import { auth} from "fBase";
+import {auth} from "fBase";
 import React, { useState } from "react";
 import {
     createUserWithEmailAndPassword,
-    getAuth,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
     GithubAuthProvider,
@@ -80,7 +79,7 @@ const Auth = ({isLoggedIn}) => {
 
             />
             <input type="submit" value={newAccount ? "Create Account" : "Log In"}/>
-            {error}
+            <div>{error}</div>
         </form>
         <span onClick={toggleAccount}>{newAccount ? "Sing In" : "Create Account"}</span>
         <div>

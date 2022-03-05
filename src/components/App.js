@@ -6,21 +6,23 @@ import {auth} from "../fBase";
 function App() {
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userObj, setUserObj] = useState(null);
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      console.log(user);
       if(user){
         setIsLoggedIn(true);
+        setUserObj(user);
       }else{
         setIsLoggedIn(false);
       }
       setInit(true);
     });
   },[])
+
   return (
     <>
-      {init ? <AppRouter isLoggedIn={isLoggedIn}/> : "Initializing..."}
-      <footer>&copy; Jwitter {new Date().getFullYear()}</footer>
+      <div>{init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj}/> : "Initializing..."}</div>
+      {/* <footer>&copy; Jwitter {new Date().getFullYear()}</footer> */}
     </>
   );
 }
