@@ -2,6 +2,8 @@ import { dbService, storageService } from "fBase";
 import { doc, deleteDoc , updateDoc} from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Jweet = ({jweetObj, isOwner}) => {
     const [editing, setEditing] = useState(false);
@@ -38,25 +40,43 @@ const Jweet = ({jweetObj, isOwner}) => {
         
     }
   return(
-      <div>
+      <div className="jweet">
         {
             editing ?
                 <>
-                    <form>
-                        <input type="text" placeholder="Edit your jweet" value={newJweet} onChange={onChange}  required/>
-                        <input type="submit" onClick={onSubmit} value="Update Jweet"/>
+                     <form onSubmit={onSubmit} className="container jweetEdit" >
+                        <input 
+                            type="text" 
+                            placeholder="Edit your jweet" 
+                            value={newJweet} 
+                            onChange={onChange}  
+                            required
+                            autoFocus
+                            className="formInput"
+                            />
+                        <input 
+                            type="submit" 
+                            value="Update Jweet"
+                            className="formBtn"
+                        />
                     </form> 
-                    <button onClick={toggleEditing}>Cancel</button>
-                </> 
+                    <span onClick={toggleEditing} className="formBtn cancelBtn">
+                        Cancel
+                    </span>
+                 </> 
                 : 
                 <> 
-                    <h4>{jweetObj.text}</h4>
-                    {jweetObj.attachmentUrl && <img src={jweetObj.attachmentUrl} width="50px" height="50px"/>}
+                    <h4 style={{wordBreak : "break-all" , margin: 10, marginLeft : 15}}>{jweetObj.text}</h4>
+                    {jweetObj.attachmentUrl && <img src={jweetObj.attachmentUrl} />}
                         {isOwner && (
-                            <>
-                                <button onClick={onDeleteClick}>Delete Jweet</button>
-                                <button onClick={toggleEditing}>Edit Jweet</button>     
-                            </>
+                            <div className="jweet__actions">
+                                <span onClick={onDeleteClick}>
+                                    <FontAwesomeIcon icon={faTrash}/>    
+                                </span>
+                                <spna onClick={toggleEditing}>
+                                    <FontAwesomeIcon icon={faPencilAlt}/>
+                                </spna>
+                            </div>
                         )}
                 </>
         }

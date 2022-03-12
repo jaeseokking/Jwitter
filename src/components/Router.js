@@ -10,8 +10,18 @@ const AppRouter = ({refreshUser, userObj}) =>{
         <Router>
             {userObj && <Navigation userObj={userObj}/>}
             <Switch>
-                {userObj ?
-                    <> 
+                {userObj ?(
+                    <div 
+                        style={{
+                            maxWidth : 890,
+                            width : "100%",
+                            margin: "0 auto",
+                            marginTop : 80,
+                            display:"flex",
+                            justifyContent : "center"
+
+                        }}
+                    > 
                         <Route exact path="/">
                             <Home userObj={userObj}/>
                         </Route>
@@ -19,7 +29,7 @@ const AppRouter = ({refreshUser, userObj}) =>{
                             <Profile userObj={userObj} refreshUser={refreshUser}/>
                         </Route>
                         <Redirect from="*" to="/"/>
-                    </> :
+                    </div> ):(
                     <> 
                     <Route expact path="/">
                         <Auth/>
@@ -27,6 +37,7 @@ const AppRouter = ({refreshUser, userObj}) =>{
                     <Redirect from="*" to="/"/>
 
                     </>
+                    )
                 }
             </Switch>
         </Router>

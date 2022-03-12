@@ -3,11 +3,9 @@ import {auth} from "fBase";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    GoogleAuthProvider,
-    GithubAuthProvider,
-    signInWithPopup,
   } from "firebase/auth";
 
+const inputStyles = {};
 
 const AuthForm = () => {
     const [email, setEmail] = useState("");
@@ -50,8 +48,9 @@ const AuthForm = () => {
    
     return(
         <>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="container">
             <input 
+                className="authInput"
                 name="email" 
                 type="email" 
                 placeholder="Email" 
@@ -61,6 +60,7 @@ const AuthForm = () => {
 
             />
             <input 
+                className="authInput"
                 name="password" 
                 type="password" 
                 placeholder="Password" 
@@ -69,10 +69,10 @@ const AuthForm = () => {
                 onChange={onChange}
 
             />
-            <input type="submit" value={newAccount ? "Create Account" : "Log In"}/>
-        <div>{error}</div>
+            <input className="authInput authSubmit" type="submit" value={newAccount ? "Create Account" : "Log In"}/>
+        <div>{error && <span className="authError">{error}</span>}</div>
     </form>
-    <span onClick={toggleAccount}>{newAccount ? "Sing In" : "Create Account"}</span>
+    <span onClick={toggleAccount} className="authSwitch">{newAccount ? "Sing In" : "Create Account"}</span>
     </>
     )
 }
