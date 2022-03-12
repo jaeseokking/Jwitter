@@ -4,12 +4,13 @@ import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import React, { useEffect , useState} from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const Profile = ({userObj}) => {
+const Profile = ({refreshUser, userObj}) => {
     const history = useHistory();
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
     const onLogOutClick = () => {
         auth.signOut();
         history.push("/");
+        refreshUser();
     }
     const getMyJweets = async() => {
         const q = query(collection(dbService, "jweets"), where("creatorId", "==", `${userObj.uid}`), orderBy("createdAt"));
@@ -32,10 +33,9 @@ const Profile = ({userObj}) => {
         if(userObj.displayName !== newDisplayName){
             console.log('??')
             console.log(userObj)
-           await updateProfile(userObj,{
-               displayName : newDisplayName
-           })
-
+            console.log(auth)
+            await updateProfile(auth.currentUser, { displayName: newDisplayName });
+            refreshUser();
         }
     }
 
